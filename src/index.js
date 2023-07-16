@@ -5,7 +5,9 @@ const io = require('socket.io')(http);
 const fs = require('fs');
 const cors = require('cors')
 app.use(cors())
+const useRoutes = require("./routes");
 
+app.use(useRoutes);
 
 io.on('connection', (socket) => {
   console.log('====A client connected', socket.id);
@@ -32,6 +34,8 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('play');
   });
 
+  app.use(useRoutes);
+
   // socket.on('playAudio', () => {
   //   socket.broadcast.emit('pause');
   // });
@@ -45,5 +49,10 @@ io.on('connection', (socket) => {
 // Start the server
 const port = 4001;
 http.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Socket server is running on http://localhost:${port}`);
+});
+
+app.listen(4000, ()=>{
+  console.log(`HTTP Server is running on http://localhost:4000`);
+
 });
